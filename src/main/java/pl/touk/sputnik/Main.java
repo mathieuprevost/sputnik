@@ -65,3 +65,5 @@ public final class Main {
         System.out.println("Sputnik version " + Main.class.getPackage().getImplementationVersion());
     }
 }
+
+// Jenkins test 1
