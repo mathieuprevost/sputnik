@@ -33,6 +33,7 @@ public final class Main {
             System.out.println(e.getMessage());
             System.exit(1);
         }
+        printRepositoryLink(commandLine);
 
         Configuration configuration = ConfigurationBuilder.initFromFile(commandLine.getOptionValue(CliOption.CONF.getCommandLineParam()));
         configuration.updateWithCliOptions(commandLine);
@@ -63,6 +64,12 @@ public final class Main {
 
     private static void printWelcomeMessage() {
         System.out.println("Sputnik version " + Main.class.getPackage().getImplementationVersion());
+    }
+
+    public static void printRepositoryLink(@NotNull CommandLine commandLine) {
+        if (commandLine.hasOption("repository")) {
+            System.out.println("Link to the project's repository: https://github.com/TouK/sputnik");
+        }
     }
 }
 

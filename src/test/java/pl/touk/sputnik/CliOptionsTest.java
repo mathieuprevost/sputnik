@@ -5,6 +5,11 @@ import org.junit.jupiter.api.Test;
 import pl.touk.sputnik.configuration.CliOption;
 import pl.touk.sputnik.configuration.CliWrapper;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static pl.touk.sputnik.Main.printRepositoryLink;
 import static pl.touk.sputnik.SputnikAssertions.assertThat;
 
 class CliOptionsTest {
@@ -36,6 +41,23 @@ class CliOptionsTest {
 
         cliAssert(commandLine).hasOption(CliOption.PULL_REQUEST_ID.getCommandLineParam()).withValue(SAMPLE_PULL_REQUEST_ID);
     }
+
+    @Test
+    void testPrintRepositoryLink() throws Exception {
+        String[] args = toArgs("-conf %s -repository", SAMPLE_CONFIG);
+
+        CommandLine commandLine = fixture.parse(args);
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        printRepositoryLink(commandLine);
+
+        System.setOut(System.out);
+
+        assertEquals("Link to the project's repository: https://github.com/TouK/sputnik", outContent.toString().trim());
+    }
+
 
     private String[] toArgs(String argsFormat, String... substitutions) {
         return String.format(argsFormat, (Object[]) substitutions).split(" ");
