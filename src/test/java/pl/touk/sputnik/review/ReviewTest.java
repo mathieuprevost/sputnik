@@ -54,6 +54,26 @@ class ReviewTest {
         assertThat(totalViolationCount).isEqualTo(2);
     }
 
+    @Test
+    void shouldAddProblem() {
+        review.addProblem("source", "problem");
+
+        assertThat(review.getProblems()).containsExactly("source: problem");
+    }
+
+    @Test
+    void shouldAdd() {
+        ReviewResult reviewResult = mock(ReviewResult.class);
+        Violation violation = mock(Violation.class);
+        when(reviewResult.getViolations()).thenReturn(singletonList(violation));
+        when(violation.getFilenameOrJavaClassName()).thenReturn("file1");
+        when(file1.getReviewFilename()).thenReturn("file1");
+
+        review.add("source", reviewResult);
+
+        assertThat(file1.getComments()).hasSize(1);
+    }
+
     private Comment mockComment() {
         return mock(Comment.class);
     }
