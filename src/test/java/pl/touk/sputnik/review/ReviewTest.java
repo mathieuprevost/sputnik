@@ -88,6 +88,7 @@ class ReviewTest {
     }
 
     private Comment mockComment(Severity severity) {
+        // gerrit test
         Comment comment = mock(Comment.class);
         when(comment.getSeverity()).thenReturn(severity);
         return comment;
